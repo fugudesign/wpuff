@@ -184,7 +184,7 @@ wp core download --locale=fr_FR --force
 
 # check version
 bot "Check the version..."
-success "$(wp core version) récupérée."
+success "$(wp core version) downloaded."
 
 # create base configuration
 bot "Configure Wordpress..."
