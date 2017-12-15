@@ -8,11 +8,11 @@ wpuff [project-slug] [options]
 
 ## Options
 
-```
---title,    -t     The Wordpress instance site name.
---domain,   -d    The custom domain name for the website (default: http://localhost/project-slug/).
---plugins,  -p   The path to a txt file with plugins list (one per line).
-```
+Option | Short | Description
+------ | ----- | -----------
+--title | -t | The Wordpress instance site name.
+--domain | -d | The custom domain name for the website (default: http://localhost/project-slug/).
+--plugins | -p | The path to a txt file with plugins list (one per line).
 
 ## Install
 
@@ -20,13 +20,14 @@ Clone the repository in your home directory.
 
 ```
 cd ~
-git clone git@github.com:fugudesign/wpuff.git
-```
-
-Rename the wpuff source directory.
-```
-mv wpuff .wpuff
+git clone git@github.com:fugudesign/wpuff.git .wpuff
 ``` 
+
+Create your custom config
+```
+cp config.sample.sh config.sh
+open -e config.sh
+```
 
 Add the script as a command.
 ```
@@ -41,7 +42,7 @@ wpuff my-first-test
 
 ## Setup
 
-You can customize the script configuration.
+You need to customize the script configuration.
 ```
 cd ~/.wpuff
 open -e config.sh
@@ -50,7 +51,7 @@ open -e config.sh
 You can customize the default plugins.
 ```
 cd ~/.wpuff
-open -e settings.sh
+open -e default-plugins.txt
 ```
 
 ## Example
