@@ -143,7 +143,7 @@ fi
 
 # Welcome !
 line
-echo -e "
+echo -e "${white}
       ##
       ##
  ##   ## #######  ###  ##  ####### #######
@@ -151,13 +151,14 @@ echo -e "
  #######  ######  ###  ##  ####### #######
  ### ###  ###     ###  ##  ##      ##
  ##   ##  ###      #####   ##      ##
+${normal} ---------------
+ by fugudesign
 "
 line
 bot "Wordpress installation for ${cyan}$title${normal}."
 
 # CHECK :  Directory doesn't exist
 # go to wordpress installs folder
-# --> Change : to wherever you want
 cd $installpath
 
 # check if provided folder name already exists
