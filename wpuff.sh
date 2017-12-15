@@ -299,5 +299,5 @@ line
 echo -e "${grey}(Don't forget the password. It was copied in the clipboard!)${normal}"
 
 line
-bot "${blue}Generated with WPuff."
+bot "${normal}Generated with ${white}WPuff.${normal}"
 line
