@@ -8,11 +8,12 @@ wpuff [project-slug] [options]
 
 ## Options
 
-Option | Short | Description
------- | ----- | -----------
---title | -t | The Wordpress instance site name.
---domain | -d | The custom domain name for the website (default: http://localhost/project-slug/).
---plugins | -p | The path to a txt file with plugins list (one per line).
+Option | Short | Default | Description
+------ | ----- | ------- | -----------
+--title | -t | [project-name] | The Wordpress instance site name.
+--domain | -d | http://localhost/[project-name]/ | The custom domain name for the website (default: http://localhost/project-slug/).
+--plugins | -p | ~/.wpuff/default-plugins.txt | The path to a txt file with plugins list (one per line).
+--blog | -b | 0 | Install the blog features (Boolean).
 
 ## Install
 
