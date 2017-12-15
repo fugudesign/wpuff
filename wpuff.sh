@@ -133,9 +133,9 @@ fi
 
 #define plugins file path
 
-if [ -f ${pluginsfile} ]; then
-	plugins=$pluginsfile
-fi
+#if [ -f ${pluginsfile} ]; then
+#	plugins=$pluginsfile
+#fi
 
 
 #  ==============================
@@ -205,14 +205,17 @@ bot "Install Wordpress..."
 wp core install --url=$url --title="$title" --admin_user=$admin --admin_email=$email --admin_password=$password --skip-email
 
 # Plugins install
-if [[ "$plugins" -ne "$no" ]]; then
 bot "Install plugins..."
-echo -e "Plugin file: ${plugins}"
-while read -r line || [ -n "$line" ];
-do
-    bot "plugin install $line"
-    wp plugin install $line --activate
-done < $plugins
+if [ -f "$plugins" ]
+then
+    echo -e "Plugins in ${plugins}"
+    while read -r line || [ -n "$line" ];
+    do
+        echo -e "Install $line..."
+        wp plugin install $line --activate
+    done < $plugins
+else
+    echo -e "No plugins in plugins file."
 fi
 
 # Scaffold a new starter theme
