@@ -24,6 +24,12 @@ email="admin@domain.tld"
 # admin login
 admin="admin"
 
+# default admin pass
+password="admin"
+
+# default author url for generated theme
+authorUrl="http://domaine.tld"
+
 # path to install your WPs
 installpath=~/Sites
 
@@ -177,7 +183,6 @@ wp db create
 # Generate random password
 #passgen=`head -c 10 /dev/random | base64`
 #password=${passgen:0:10}
-password=120BXgeuRAT
 
 # launch install
 bot "et j'installe !"
@@ -201,7 +206,7 @@ fi
 
 # Scaffold a new starter theme
 bot "Je crée un nouveau thème de base"
-wp scaffold _s $project --activate --theme_name="$title" --author=$admin --author_uri="http://www.fugu.fr"
+wp scaffold _s $project --activate --theme_name="$title" --author=$admin --author_uri=$authorUrl
 
 # Create standard pages
 bot "Je crée les pages habituelles (Accueil, blog, contact...)"
