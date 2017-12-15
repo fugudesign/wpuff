@@ -16,11 +16,12 @@ Option | Short | Description
 
 ## Install
 
-Clone the repository in your home directory.
+Clone the repository in your home directory and enter inside.
 
 ```
 cd ~
 git clone git@github.com:fugudesign/wpuff.git .wpuff
+cd .wpuff
 ``` 
 
 Create your custom config
