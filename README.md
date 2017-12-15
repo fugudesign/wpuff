@@ -34,7 +34,7 @@ open -e config.sh
 Add the script as a command.
 ```
 sudo chmod +x wpuff.sh
-ln -s ~/.wpuff/wpuff.sh /usr/local/bin
+ln -s ~/.wpuff/wpuff.sh /usr/local/bin/wpuff
 ```
 
 Now, just create your first site.
@@ -80,5 +80,6 @@ wpuff my-website --domain="my-website.loc" --titlte="My Puffed Website" --plugin
 
 ## Requirements
 
+- Unix
 - Bash
-- Terminal
+- [WP-CLI](http://wp-cli.org/)
