@@ -24,7 +24,7 @@ git clone git@github.com:fugudesign/wpuff.git .wpuff
 cd .wpuff
 ``` 
 
-Create your custom config
+Create your custom config and edit it with your favorite editor
 ```
 cp config.sample.sh config.sh
 open -e config.sh
