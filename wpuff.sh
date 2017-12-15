@@ -17,6 +17,7 @@
 # VARS
 # Project slug
 project=$1
+scriptDir=~/.wpuff
 
 # admin email
 email="admin@domain.tld"
@@ -41,7 +42,7 @@ plugins=~/.wpuff/default-plugins.txt
 url="http://localhost/$project/"
 
 # Include a config file
-source ~/.wpuff/config.sh
+source $scriptDir/config.sh
 
 
 #  ===============
