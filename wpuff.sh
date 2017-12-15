@@ -205,13 +205,13 @@ bot "Install Wordpress..."
 wp core install --url=$url --title="$title" --admin_user=$admin --admin_email=$email --admin_password=$password --skip-email
 
 # Plugins install
-bot "Install plugins..."
+bot "Check plugins..."
 if [ -f "$plugins" ]
 then
-    echo -e "Plugins in ${plugins}"
+    success "Plugins found in ${plugins}."
     while read -r line || [ -n "$line" ];
     do
-        echo -e "Install $line..."
+        bot "Install $line..."
         wp plugin install $line --activate
     done < $plugins
 else
