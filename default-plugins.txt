@@ -1,0 +1,9 @@
+ajax-thumbnail-rebuild
+disable-comments
+email-address-encoder
+enable-media-replace
+wp-edit
+user-role-editor
+wordpress-seo
+wp-migrate-db
+maintenance-switch
