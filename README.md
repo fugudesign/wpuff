@@ -14,7 +14,7 @@ wpuff [project-slug] [options]
 --plugins,  -p   The path to a txt file with plugins list (one per line).
 ```
 
-##Install
+## Install
 
 Clone the repository in your home directory.
 
