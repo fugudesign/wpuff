@@ -56,6 +56,21 @@ cd ~/.wpuff
 open -e default-plugins.txt
 ```
 
+### Custom post install script (optional)
+
+You can execute a post install custom script. Duplicate the sample file and open it in your editor.
+```
+cd ~/.wpuff/
+cp post-install.sample.sh post-install.sh
+open -e post-install.sh
+```
+
+Put your custom script inside. Example:
+```
+wp page create "Services"
+wp page create "Sitemap"
+``` 
+
 ## Example
 
 Full options website creation.

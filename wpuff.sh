@@ -272,6 +272,8 @@ bot "Activate the permalink structure..."
 wp rewrite structure "/%postname%/" --hard
 wp rewrite flush --hard
 
+# Execute post install custom script
+source $scriptDir/post-install.sh
 
 # Open in browser
 bot "Open browser pages..."

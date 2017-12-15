@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 
 config.sh
+post-install.sh
 
 ### SublimeText template
 # Cache files for Sublime Text
