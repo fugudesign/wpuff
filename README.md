@@ -1,10 +1,14 @@
 # WPuff
-
 WPuff is a Bash script to build your Wordpress application with a simple command line.
 
 ```
 wpuff [project-slug] [options]
 ```
+
+## Requirements
+>  Unix   
+>  Bash   
+>  [WP-CLI](http://wp-cli.org/)    
 
 ## Options
 
@@ -77,9 +81,3 @@ Full options website creation.
 ```
 wpuff my-website --domain="my-website.loc" --titlte="My Puffed Website" --plugins="~/my-plugins.txt"
 ```
-
-## Requirements
-
-- Unix
-- Bash
-- [WP-CLI](http://wp-cli.org/)
