@@ -16,7 +16,7 @@ password="admin"
 authorUrl="http://domaine.tld"
 
 # path to install your WPs
-installpath=~/Sites
+installpath=~/sites
 
 # path to plugins.txt
 plugins=~/.wpuff/default-plugins.txt

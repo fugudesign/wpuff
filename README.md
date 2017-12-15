@@ -13,7 +13,7 @@ Option | Short |  Description
 --title | -t | The Wordpress instance site name (Default: [project-name])
 --domain | -d | The custom domain name for the website (Default: http://localhost/[project-name]/)
 --plugins | -p | The path to a txt file with plugins list (one per line) (Default: ./default-plugins.txt)
---blog | -b | Install the blog features (Boolean) (Default: 0)
+--blog | n/a | Just add the flag activate the Wordpress blog features
 
 ## Install
 

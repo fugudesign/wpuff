@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# WPuff (｡◕‿◕｡)
+# WPuff
 # Automatize your WordPress installation
 #
 # By @fugudesign (v.lalanne@fugu.fr)
@@ -31,7 +31,7 @@ password="admin"
 authorUrl="http://domaine.tld"
 
 # path to install your WPs
-installpath=~/Sites
+installpath=~/sites
 
 # path to plugins.txt
 plugins=~/.wpuff/default-plugins.txt
@@ -41,7 +41,8 @@ plugins=~/.wpuff/default-plugins.txt
 url="http://localhost/$project/"
 
 # Include a config file
-source config.sh
+source ~/.wpuff/config.sh
+
 
 #  ===============
 #  = Fancy Stuff =
@@ -56,23 +57,34 @@ set -e
 
 # colorize and formatting command line
 # You need iTerm and activate 256 color mode in order to work : http://kevin.colyar.net/wp-content/uploads/2011/01/Preferences.jpg
-green='\x1B[0;32m'
-cyan='\x1B[1;36m'
-blue='\x1B[0;34m'
-grey='\x1B[1;30m'
-red='\x1B[0;31m'
+green='\033[0;32m'
+cyan='\033[1;36m'
+blue='\033[0;34m'
+grey='\033[1;30m'
+red='\033[0;31m'
+white='\033[1;37m'
 bold='\033[1m'
 normal='\033[0m'
 
 # Jump a line
 function line {
-  echo " "
+  echo -e " "
 }
 
 # wpuff has something to say
 function bot {
   line
-  echo "${blue}${bold}(｡◕‿◕｡)${normal}  $1"
+  echo -e "${white}${bold}•  •  •  $1${normal}"
+}
+
+# Success msg
+function success {
+    echo -e "${green}${bold}Success:${normal} $1"
+}
+
+# Error msg
+function error {
+    echo -e "${red}${bold}Error:${normal} $1"
 }
 
 
@@ -131,11 +143,17 @@ fi
 
 # Welcome !
 line
+echo -e "
+      ##
+      ##
+ ##   ## #######  ###  ##  ####### #######
+ ## # ##       ## ###  ##
+ #######  ######  ###  ##  ####### #######
+ ### ###  ###     ###  ##  ##      ##
+ ##   ##  ###      #####   ##      ##
+"
 line
-echo "${blue}–––––––––––––––––––––––––––––––––––––––––––––"
-line
-bot "${blue}${bold}Bonjour ! Je suis WPuff.${normal}"
-echo "         Je vais installer WordPress pour votre site : ${cyan}$title${normal}"
+bot "Wordpress installation for ${cyan}$title${normal}."
 
 # CHECK :  Directory doesn't exist
 # go to wordpress installs folder
@@ -144,31 +162,31 @@ cd $installpath
 
 # check if provided folder name already exists
 if [ -d $project ]; then
-	bot "${red}Le dossier ${cyan}$project ${red}existe déjà${normal}."
+	error "Directory ${cyan}$project ${normal}already exists."
 	if [ "$(ls ./$project)" ]; then
-	  bot "${red}Le dossier ${cyan}$project ${red}n'est pas vide${normal}."
-	  echo "         Par sécurité, je ne vais pas plus loin pour ne rien écraser."
+	  error "Directory ${cyan}$project ${normal}is not empty."
 	  line
 	  # quit script
 	  exit 1
 	fi
 else
 	# create directory
-	bot "Je crée le dossier : ${cyan}$project${normal}"
+	bot "Create directory..."
 	mkdir $project
+	success "$installpath/$project created."
 fi
 cd $project
 
 # Download WP
-bot "Je télécharge WordPress..."
+bot "Download WordPress..."
 wp core download --locale=fr_FR --force
 
 # check version
-bot "J'ai récupéré cette version :"
-wp core version
+bot "Check the version..."
+success "$(wp core version) récupérée."
 
 # create base configuration
-bot "Je lance la configuration :"
+bot "Configure Wordpress..."
 wp core config --dbname=$project --dbprefix="${project:0:4}_" --dbuser=root --dbpass=mypass --skip-check --extra-php <<PHP
 define( 'WP_DEBUG', false );
 define( 'WP_POST_REVISIONS', 5 );
@@ -177,20 +195,17 @@ define( 'DISALLOW_FILE_EDIT', true );
 PHP
 
 # Create database
-bot "Je crée la base de données :"
+bot "Create the database..."
 wp db create
 
-# Generate random password
-#passgen=`head -c 10 /dev/random | base64`
-#password=${passgen:0:10}
-
 # launch install
-bot "et j'installe !"
+bot "Install Wordpress..."
 wp core install --url=$url --title="$title" --admin_user=$admin --admin_email=$email --admin_password=$password --skip-email
 
 # Plugins install
 if [[ "$plugins" -ne "$no" ]]; then
-bot "J'installe les plugins listés dans le fichier : ${plugins}"
+bot "Install plugins..."
+echo -e "Plugin file: ${plugins}"
 while read -r line || [ -n "$line" ];
 do
     bot "plugin install $line"
@@ -198,18 +213,12 @@ do
 done < $plugins
 fi
 
-# Download from private git repository
-#bot "Je télécharge le thème WP0 theme :"
-#cd wp-content/themes/
-#git clone git@bitbucket.org:maximebj/wordpress-zero-theme.git
-#wp theme activate wordpress-zero-theme
-
 # Scaffold a new starter theme
-bot "Je crée un nouveau thème de base"
+bot "Create new base theme..."
 wp scaffold _s $project --activate --theme_name="$title" --author=$admin --author_uri=$authorUrl
 
 # Create standard pages
-bot "Je crée les pages habituelles (Accueil, blog, contact...)"
+bot "Create default basic pages (Home, blog, contact...)"
 wp post create --post_type=page --post_title='Accueil' --post_status=publish
 wp post create --post_type=page --post_title='À propos' --post_status=publish
 wp post create --post_type=page --post_title='Contact' --post_status=publish
@@ -218,22 +227,20 @@ if [[ "$blog" -eq "$yes" ]]; then
 wp post create --post_type=page --post_title='Blog' --post_status=publish
 fi
 
-# Create fake posts
-if [[ "$blog" -eq "$yes" ]]; then
-bot "Je crée quelques faux articles"
-curl http://loripsum.net/api/5 | wp post generate --post_content --count=5
-fi
-
 # Change Homepage
-bot "Je change la page d'accueil"
+bot "Change the homepage..."
 wp option update show_on_front page
 wp option update page_on_front 3
 if [[ "$blog" -eq "$yes" ]]; then
 wp option update page_for_posts 7
 fi
 
+# cat and tag base update
+bot "Setup options..."
+wp option update timezone_string "Europe/Paris"
+
 # Menu stuff
-bot "Je crée le menu principal, assigne les pages, et je lie l'emplacement du thème : "
+bot "Setup the main menu..."
 wp menu create "Menu Principal"
 wp menu item add-post menu-principal 3
 wp menu item add-post menu-principal 4
@@ -241,10 +248,10 @@ wp menu item add-post menu-principal 5
 if [[ "$blog" -eq "$yes" ]]; then
 wp menu item add-post menu-principal 7
 fi
-wp menu location assign menu-principal primary
+wp menu location assign menu-principal menu-1
 
 # Misc cleanup
-bot "Je supprime Hello Dolly, les thèmes de base et les articles exemples"
+bot "Clean contents and extensions..."
 wp post delete 1 --force # Article exemple - no trash. Comment is also deleted
 wp post delete 2 --force # page exemple
 wp plugin delete akismet
@@ -253,63 +260,44 @@ wp theme delete twentythirteen
 wp theme delete twentyfourteen
 wp option update blogdescription ''
 
+# Create fake posts
+if [[ "$blog" -eq "$yes" ]]; then
+bot "Generate some fake blog posts..."
+curl http://loripsum.net/api/5 | wp post generate --post_content --count=5
+fi
 
 # Permalinks to /%postname%/
-bot "J'active la structure des permaliens"
+bot "Activate the permalink structure..."
 wp rewrite structure "/%postname%/" --hard
 wp rewrite flush --hard
 
-# cat and tag base update
-wp option update timezone_string Europe/Paris
-#wp option update category_base theme
-#wp option update tag_base sujet
-
-# Git project
-# REQUIRED : download Git at http://git-scm.com/downloads
-#bot "Je Git le projet :"
-#cd ../..
-#git init    # git project
-#git add -A  # Add all untracked files
-#git commit -m "Initial commit"   # Commit changes
-
-# Open the stuff
-bot "Je lance le navigateur, l'éditeur et le finder."
 
 # Open in browser
-open "${url}wp-admin"
-open $url
+bot "Open browser pages..."
+open "${url}wp-admin/"
+open "$url"
 
 # Open in Sublime text
 # REQUIRED : activate subl alias at https://www.sublimetext.com/docs/3/osx_command_line.html
-#cd wp-content/themes
-#subl $1
-
-# Open in Coda
-# REQUIRED : activate coda-cli
-#cd wp-content/themes
-#coda .
-subl $installpath"/"$project
+bot "Open project in SublimeText..."
+subl .
 
 # Open in finder
-#cd $1
+bot "Open the directory window..."
 open .
 
 # Copy password in clipboard
 echo $password | pbcopy
 
 # That's all ! Install summary
-bot "${green}L'installation est terminée !${normal}"
+bot "${green}${bold}Install done.${normal}"
 line
-echo "URL du site:   $url"
-echo "Login admin :  $admin"
-echo "Password :  ${cyan}${bold} $password ${normal}${normal}"
+echo -e "URL:   $url"
+echo -e "Admin login:  $admin"
+echo -e "Admin pass:  ${cyan}${bold} $password ${normal}${normal}"
 line
-echo "${grey}(N'oubliez pas le mot de passe ! Je l'ai copié dans le presse-papier)${normal}"
+echo -e "${grey}(Don't forget the password. It was copied in the clipboard!)${normal}"
 
 line
-bot "${blue}à Bientôt !"
-line
-line
-echo "${blue}–––––––––––––––––––––––––––––––––––––––––––––${normal}"
-line
+bot "${blue}Generated with WPuff."
 line
