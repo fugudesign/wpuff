@@ -88,27 +88,49 @@ function error {
     echo -e "${red}${bold}Error:${normal} $1"
 }
 
+function usage {
+    echo ""
+    echo "WPuff Usage"
+    echo ""
+    echo "wpuff (~/.wpuff/wpuff.sh)"
+    echo "\t-h --help"
+    echo "\t--plugin=$pluginsfile"
+    echo "\t--title=$title"
+    echo "\t--domain=$domain"
+    echo "\t--blog=$blog"
+    echo ""
+}
 
 
 # SCRIPT OTPS
 myopts() {
-	while getopts ":bd:p:t:" optname
-	do
-	  case "$optname" in
-
-	    "p") pluginsfile=$OPTARG ;;
-
-	    "t") title=$OPTARG ;;
-
-	    "d") domain=$OPTARG ;;
-
-	    "b") blog=1 ;;
-
-	    "?") bot "Unknown option $OPTARG" ;;
-	    ":") bot "No argument value for option $OPTARG" ;;
-	    *) bot "Unknown error while processing options" ;; # Should not occur
-
-	  esac
+	while [ "$1" != "" ]; do
+	    PARAM=`echo $1 | awk -F= '{print $1}'`
+	    VALUE=`echo $1 | awk -F= '{print $2}'`
+	    case $PARAM in
+	        -h | --help)
+	            usage
+	            exit
+	            ;;
+	        --plugins) 
+				pluginsfile=$VALUE  
+				;;
+			--title) 
+				title=$VALUE  
+				;;
+			--domain) 
+				domain=$VALUE  
+				;;
+			--blog) 
+				blog=1 
+				;;
+	        *)
+	            echo "ERROR: unknown parameter \"$PARAM\""
+	            usage
+	            exit 1
+	            ;;
+	    esac
+	    shift
 	done
 }
 
@@ -131,12 +153,7 @@ if [ -z "$blog" ]; then
     blog=0
 fi
 
-#define plugins file path
-
-#if [ -f ${pluginsfile} ]; then
-#	plugins=$pluginsfile
-#fi
-
+exit
 
 #  ==============================
 #  = The show is about to begin =
