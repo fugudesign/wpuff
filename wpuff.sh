@@ -153,8 +153,6 @@ if [ -z "$blog" ]; then
     blog=0
 fi
 
-exit
-
 #  ==============================
 #  = The show is about to begin =
 #  ==============================
